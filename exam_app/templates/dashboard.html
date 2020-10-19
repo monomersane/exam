@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <title>Welcome {{ user.first_name}}</title>
+</head>
+<body>
+    <div>
+    <h1 class="text-center">Welcome {{user.first_name}} {{user.last_name}}</h1>
+    <a href="/show_user/{{user.id}}" class="btn btn-info">My Quotes</a>
+    <a href="/edit_user" class="btn btn-primary">Edit Profile</a>
+    <a href="/logout" class="btn btn-danger">logout</a>
+    </div>
+
+    <form action='/create_quote' method="post" class="col-5 mx-auto"> 
+
+        <div class="col-6 d-flex flex-column justify-content-around align-items-center">
+            <h2>Quotes</h2>
+			{% for quo in all_quotes %}
+			<div class="card">
+			<h4 class="card-title">{{quo.author}}</h4>
+				<p class="card-text">Quote: "{{quo.quote}}"</p>
+                <p class="card-text">Created By <a href="/show_user/{{quo.user.id}}">{{quo.user.first_name}} {{quo.user.last_name}}</a></p>
+            
+            {% if quo.user.id == user.id %}
+            <a href='/destroy_quote/{{quo.id}}' class="btn btn-danger btn-outline-warning">Destroy</a>		
+            {% endif %}
+            {% if quo.likes.count > 0 %}
+            <p class="card-text">{{ quo.likes.count }} people like this</p>
+            {% endif %}
+            <a href="/like/{{quo.id}}/{{user.id}}" class="btn btn-success">Like</a>
+            {% endfor %}
+            </div>
+		</div>
+		<div class="col-6 d-flex flex-column justify-content-end align-items-center">
+		<h2>Add a Quote</h2>
+		{% csrf_token %}
+		<div class="form_group">
+			<label form="author">Author:</label>
+			<input type="text" name="author" class="form-control">
+			<span class="text-danger">
+                {% for message in messages%}
+                    <p>{{ message }}</p>
+                {% endfor %}
+			</span>
+		</div>
+		<div class="form_group">
+			<label form="quote">Quote:</label>
+			<input type="text" name="quote" class="form-control">
+			<span class="text-danger">
+				{% for message in messages %}
+					{% if message.tags == 'quote_error' %}
+						<p>{{message}}</p>
+					{% endif %}
+				{% endfor %}
+			</span>
+		</div>
+		<input type="submit" value="Submit" class="btn btn-warning btn-outline-dark">
+	</form>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"></script>
+</body>
+</html>

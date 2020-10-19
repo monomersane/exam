@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>{{user.first_name}} {{user.last_name}}'s Quotes</title>
+</head>
+<body>
+    <div>
+    <a href="/dashboard" class="btn btn-primary">Home</a>
+    <a href="/logout" class="btn btn-danger">logout</a>
+    
+    </div>
+    <h1 class="text-center">{{user.first_name}} {{user.last_name}}'s Quotes</h1>
+    {% for quo in user.quotes.all %}
+        <div class="card">
+            <h4 class="card-text">{{quo.author}}</h4>
+            <p class="card-text">Quote: {{quo.quote}}</p>
+        </div>
+    {% endfor %}
+
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"></script>
+</body>
+</html>

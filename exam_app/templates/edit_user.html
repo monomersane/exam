@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Edit User</title>
+</head>
+<body>
+    <div>   
+        <h1 class="text-center">Edit My Profile</h1>
+        <a href="/dashboard" class="btn btn-primary">Home</a>
+        <a href="/logout" class="btn btn-danger">logout</a>
+    </div>
+    <form action="/update_user" method="post" class="col-5 mx-auto">
+        {% csrf_token %}
+                <div class="form-group">
+                    <label for="edit_first_name">First Name:</label>
+                    <input type="text" name="edit_first_name" class="form-control" value="{{edit.first_name}}">
+                    {% for message in messages %}
+						{{message}}
+				    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    <label for="edit_last_name">Last Name:</label>
+                    <input type="text" name="edit_last_name" class="form-control" value="{{edit.last_name}}">
+                    {% for message in messages %}
+                        {% if message.tags == 'edit_last_name_error' %}
+                            {{message}}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    <label for="edit_email">Email:</label>
+                    <input type="text" name="edit_email" class="form-control" value="{{edit.email}}">
+                    {% for message in messages %}
+                        {% if message.tags == 'edit_email_error' %}
+                            {{message}}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <input type="submit" value="Edit" class="btn btn-info">
+    </form>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"></script>
+</body>
+</html>
